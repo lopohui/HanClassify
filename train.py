@@ -24,10 +24,10 @@ def parse_args():
     optparser.add_option("--n_epoch",default=10,help="num of epochs")
     optparser.add_option("--batch_size",default=2,help="batch size")
     
-    optparser.add_option("--emd_dim",default=256,help="embedding size")
-    optparser.add_option("--lstm_dim",default=128,help="lstm hidden dim")
+    optparser.add_option("--emd_dim",default=256,type=int,help="embedding size")
+    optparser.add_option("--lstm_dim",default=128,type=int,help="lstm hidden dim")
     optparser.add_option("--lr_method",default="sgd",help="learning method")
-    optparser.add_option("--lr_rate",default=0.1,help="learning rate")
+    optparser.add_option("--lr_rate",default=0.1,type=float,help="learning rate")
 
     opts = optparser.parse_args()[0]
     # pdb.set_trace()
@@ -74,7 +74,9 @@ if __name__=="__main__":
         for epoch in xrange(parameters["n_epoch"]):
             train_data_count = 0
             logging.info("start epoch %i",epoch)
-            permuate_index = np.random.permutation(len(byte_pos_train))
+            # permuate_index = np.random.permutation(len(byte_pos_train))
+            permuate_index = np.arange(len(byte_pos_train))
+            # pdb.set_trace() 
             for i in range(n_batch):
                 batch_index = permuate_index[i*batch_size:(i+1)*batch_size]
                 batch_pos   = [byte_pos_train[index] for index in batch_index]
